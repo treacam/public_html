@@ -1,1 +1,636 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stanford University</title>
+    <!-- Stanford favicon dari identity.stanford.edu [citation:4][citation:8] -->
+    <link rel="icon" type="image/png" href="//www-media.stanford.edu/assets/favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="//www-media.stanford.edu/assets/favicon/favicon-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="//www-media.stanford.edu/assets/favicon/favicon-128.png" sizes="128x128" />
+    <link rel="icon" type="image/png" href="//www-media.stanford.edu/assets/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="//www-media.stanford.edu/assets/favicon/favicon-16x16.png" sizes="16x16" />
+    <style>
+        :root {
+            --stanford-cardinal-red: #8C1515;
+            --stanford-digital-red: #B1040E;
+            --stanford-black: #2E2D29;
+            --stanford-cool-grey: #4D4F53;
+            --stanford-white: #FFFFFF;
+            --stanford-light-grey: #F4F4F4;
+            --stanford-beige-20: #E3DCD5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--stanford-white);
+            color: var(--stanford-black);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Skip Navigation Link untuk aksesibilitas [citation:4][citation:8] */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--stanford-cardinal-red);
+            color: var(--stanford-white);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            transition: top 0.2s;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Stanford Identity Bar - 30px tall [citation:3][citation:4][citation:8] */
+        .identity-bar {
+            background-color: var(--stanford-cardinal-red);
+            height: 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .identity-bar a {
+            color: var(--stanford-white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .identity-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Local Header [citation:4][citation:8] */
+        .local-header {
+            background-color: var(--stanford-white);
+            padding: 16px 20px;
+            border-bottom: 1px solid #E5E5E5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .department-logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--stanford-cardinal-red);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .department-logo span {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--stanford-cool-grey);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .local-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .local-search label {
+            font-size: 14px;
+            color: var(--stanford-black);
+            font-weight: 600;
+        }
+        .local-search input {
+            padding: 8px 12px;
+            border: 1px solid #CCCCCC;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 220px;
+            color: var(--stanford-black);
+            background-color: var(--stanford-white);
+        }
+        .local-search input::placeholder {
+            color: #767674;
+        }
+        .local-search input:focus {
+            outline: 2px solid var(--stanford-cardinal-red);
+            outline-offset: 2px;
+            border-color: var(--stanford-cardinal-red);
+        }
+        .local-search button {
+            padding: 8px 16px;
+            background-color: var(--stanford-cardinal-red);
+            color: var(--stanford-white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .local-search button:hover {
+            background-color: #7A1212;
+        }
+
+        /* Main Navigation [citation:4][citation:8] */
+        .main-nav {
+            background-color: var(--stanford-white);
+            border-bottom: 2px solid var(--stanford-cardinal-red);
+            padding: 0 20px;
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--stanford-black);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .main-nav a:hover,
+        .main-nav a:focus {
+            border-bottom-color: var(--stanford-cardinal-red);
+            color: var(--stanford-cardinal-red);
+            outline: none;
+        }
+        /* Hamburger menu untuk mobile */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--stanford-black);
+            padding: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #8C1515 0%, #B1040E 100%);
+            color: var(--stanford-white);
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 20px);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        .hero .cta-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--stanford-white);
+            color: var(--stanford-cardinal-red);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .hero .cta-button:hover,
+        .hero .cta-button:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            outline: 2px solid var(--stanford-white);
+        }
+
+        /* Main Content dengan Cards */
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--stanford-black);
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--stanford-cardinal-red);
+            padding-bottom: 12px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: var(--stanford-white);
+            border: 1px solid #E5E5E5;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+        .card-image {
+            background: var(--stanford-beige-20);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--stanford-cool-grey);
+        }
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--stanford-black);
+            margin-bottom: 8px;
+        }
+        .card-body p {
+            color: var(--stanford-cool-grey);
+            font-size: 14px;
+            flex: 1;
+            margin-bottom: 16px;
+        }
+        .card-body a {
+            color: var(--stanford-cardinal-red);
+            text-decoration: underline;
+            font-weight: 600;
+            align-self: flex-start;
+        }
+        .card-body a:hover {
+            color: #7A1212;
+        }
+
+        /* News Section */
+        .news-list {
+            list-style: none;
+        }
+        .news-list li {
+            border-bottom: 1px solid #E5E5E5;
+            padding: 16px 0;
+        }
+        .news-list li:last-child {
+            border-bottom: none;
+        }
+        .news-list .date {
+            font-size: 12px;
+            color: var(--stanford-cool-grey);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .news-list a {
+            color: var(--stanford-black);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .news-list a:hover {
+            color: var(--stanford-cardinal-red);
+            text-decoration: underline;
+        }
+
+        /* Stanford Local Footer [citation:4][citation:8] */
+        .local-footer {
+            background-color: var(--stanford-light-grey);
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+        .local-footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .local-footer h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--stanford-black);
+            margin-bottom: 12px;
+        }
+        .local-footer p,
+        .local-footer li {
+            font-size: 14px;
+            color: var(--stanford-cool-grey);
+            list-style: none;
+            margin-bottom: 6px;
+        }
+
+        /* Stanford Global Footer - 120px tall [citation:3][citation:4][citation:8] */
+        .global-footer {
+            background-color: var(--stanford-cardinal-red);
+            color: var(--stanford-white);
+            min-height: 120px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .global-footer-content {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .footer-logo a {
+            color: var(--stanford-white);
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .footer-logo span {
+            display: block;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--stanford-white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+        .footer-links a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        .copyright {
+            font-size: 12px;
+            opacity: 0.8;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .local-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .local-search {
+                width: 100%;
+            }
+            .local-search input {
+                flex: 1;
+            }
+            .hamburger {
+                display: block;
+            }
+            .main-nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            .main-nav ul.active {
+                display: flex;
+            }
+            .main-nav a {
+                padding: 12px 0;
+                border-bottom: 1px solid #E5E5E5;
+            }
+            .hero {
+                padding: 50px 20px;
+            }
+            .global-footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .department-logo a {
+                font-size: 20px;
+            }
+            .local-search input {
+                width: 100%;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Navigation untuk aksesibilitas [citation:4][citation:8] -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Stanford Identity Bar [citation:3][citation:4][citation:8] -->
+    <div class="identity-bar">
+        <a href="https://www.stanford.edu">Stanford University</a>
+    </div>
+
+    <!-- Local Header [citation:4][citation:8] -->
+    <header class="local-header">
+        <div class="department-logo">
+            <a href="/">Stanford University</a>
+            <span>Official Website</span>
+        </div>
+        <div class="local-search">
+            <label for="local-search-input">Search</label>
+            <input type="text" id="local-search-input" placeholder="Search this site..." onkeypress="handleLocalSearch(event)">
+            <button onclick="performLocalSearch()" aria-label="Submit search">Go</button>
+        </div>
+    </header>
+
+    <!-- Main Navigation [citation:4][citation:8] -->
+    <nav class="main-nav" aria-label="Main navigation">
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false">
+            ☰
+        </button>
+        <ul id="main-menu">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Academics</a></li>
+            <li><a href="#">Admission</a></li>
+            <li><a href="#">Research</a></li>
+            <li><a href="#">Campus Life</a></li>
+            <li><a href="#">News</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>A Purposeful University</h1>
+        <p>Stanford was founded almost 150 years ago on a bedrock of societal purpose. Our mission is to contribute to the world by educating students for lives of leadership and contribution with integrity.</p>
+        <a href="#" class="cta-button">More about Stanford</a>
+    </section>
+
+    <!-- Main Content [citation:5] -->
+    <main id="main-content" class="main-content">
+        <h2 class="section-title">Explore Stanford</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-image">📚</div>
+                <div class="card-body">
+                    <h3>Academics</h3>
+                    <p>Seven schools on one campus offer students a broad range of programs and opportunities for interdisciplinary study.</p>
+                    <a href="#">Explore academics →</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image">🔬</div>
+                <div class="card-body">
+                    <h3>Research</h3>
+                    <p>Stanford research is driven by the desire to understand and improve the world through innovation and discovery.</p>
+                    <a href="#">Discover research →</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image">🏛️</div>
+                <div class="card-body">
+                    <h3>Campus Life</h3>
+                    <p>A vibrant community of creative and accomplished people from around the world on a beautiful campus.</p>
+                    <a href="#">Experience campus →</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">University News</h2>
+        <ul class="news-list">
+            <li>
+                <span class="date">May 15, 2026</span><br>
+                <a href="#">Stanford researchers develop new approach to clean energy storage</a>
+            </li>
+            <li>
+                <span class="date">May 10, 2026</span><br>
+                <a href="#">Commencement 2026: Celebrating the Class of 2026</a>
+            </li>
+            <li>
+                <span class="date">May 5, 2026</span><br>
+                <a href="#">New interdisciplinary program bridges humanities and technology</a>
+            </li>
+            <li>
+                <span class="date">April 28, 2026</span><br>
+                <a href="#">Stanford Hospital recognized for excellence in patient care</a>
+            </li>
+        </ul>
+    </main>
+
+    <!-- Local Footer [citation:4][citation:8] -->
+    <footer class="local-footer">
+        <div class="local-footer-content">
+            <div>
+                <h4>Contact Us</h4>
+                <p>Stanford University</p>
+                <p>450 Jane Stanford Way</p>
+                <p>Stanford, CA 94305</p>
+                <p>Phone: (650) 723-2300</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li>Maps & Directions</li>
+                    <li>Visitor Information</li>
+                    <li>Employment</li>
+                    <li>Emergency Info</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li>Libraries</li>
+                    <li>IT Services</li>
+                    <li>Events Calendar</li>
+                    <li>Giving to Stanford</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Stanford Global Footer [citation:3][citation:4][citation:8] -->
+    <footer class="global-footer" role="contentinfo">
+        <div class="global-footer-content">
+            <div class="footer-logo">
+                <a href="https://www.stanford.edu">Stanford University</a>
+                <span>Stanford, California 94305</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.stanford.edu/site/terms/">Terms of Use</a>
+                <a href="https://www.stanford.edu/site/privacy/">Privacy Policy</a>
+                <a href="https://www.stanford.edu/site/copyright/">Copyright</a>
+                <a href="https://emergency.stanford.edu/">Emergency Info</a>
+            </div>
+            <div class="copyright">
+                &copy; Stanford University. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const menu = document.getElementById('main-menu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.toggle('active');
+            const isExpanded = menu.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
+        }
+
+        // Local search [citation:4][citation:8]
+        function performLocalSearch() {
+            const query = document.getElementById('local-search-input').value.trim();
+            if (query) {
+                window.location.href = 'https://www.stanford.edu/search/?q=' + encodeURIComponent(query);
+            }
+        }
+
+        function handleLocalSearch(event) {
+            if (event.key === 'Enter') {
+                performLocalSearch();
+            }
+        }
+
+        // Tutup menu saat klik di luar menu (mobile)
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('main-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (menu.classList.contains('active') && 
+                !menu.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                menu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    </script>
+</body>
+</html>
